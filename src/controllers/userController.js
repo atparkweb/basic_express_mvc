@@ -3,11 +3,19 @@ const userModel = require("../models/user");
 const userController = {
   index(req, res) {
     console.log("controller: home");
+    // Logic for home view goes here
+    // to get data, use a userModel method
     res.send("welcome home");
   },
   view(req, res) {
     console.log("controller: get");
-    res.send("user " + req.params.id + " deatils...");
+    userModel.getUser(req.params.id, (error, data) => {
+      if (error) {
+        res.status(404).end("Not found");
+      } else {
+        res.status(200).send(data);
+      }
+    });
   },
   delete(req, res) {
     console.log("controller: delete");
